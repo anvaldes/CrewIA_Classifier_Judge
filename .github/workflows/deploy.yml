@@ -16,6 +16,7 @@ env:
   REGION: us-central1
   SERVICE_NAME: crewia-classifier-judge
   AR_REPOSITORY: crewia-classifier-judge
+  CLOUD_RUN_SA: proyects-account@iaportafolio-510415.iam.gserviceaccount.com
 
 jobs:
   deploy:
@@ -70,6 +71,7 @@ jobs:
             --platform=managed \
             --region="${REGION}" \
             --project="${PROJECT_ID}" \
+            --service-account="${CLOUD_RUN_SA}" \
             --memory=1Gi \
             --timeout=900 \
             --ingress=all \
