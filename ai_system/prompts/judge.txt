@@ -1,12 +1,19 @@
-Audit the classifier's label for this movie review.
+Decide the correct sentiment label for this movie review. A classifier has already proposed a label; treat it as a hypothesis to test, not as a default to confirm.
 
 REVIEW:
 {review}
 
-Rubric (score from 1 to 10):
-1. Evidence: do the quotes exist in the review and support the label?
-2. Overall opinion: does the label reflect the author's final judgment rather than an isolated remark?
-3. Nuance: were sarcasm, irony and mixed passages taken into account?
-4. Calibration: is the confidence reasonable given how ambiguous the review is?
+Work in this order:
 
-First form your own opinion by reading the review, then compare it with the classifier's. If they match, confirm. If the text clearly contradicts the classifier, correct the label.
+1. Ignore the classifier's output. From the review alone, list what the author praises and what the author criticizes about the movie itself.
+2. Find the author's verdict: an explicit rating, a recommendation, the closing sentences, or whether they say they enjoyed it or would watch it again. The verdict outweighs the number of complaints or compliments.
+3. Estimate the star rating (1-10) the author would give. 1-5 means negative, 6-10 means positive. This is your independent label.
+4. Only now compare with the classifier. If your label differs, yours is the final label. You do not need the classifier to be clearly wrong, only for your reading of the verdict to be better supported.
+
+The classifier tends to fail on mixed reviews by counting tone instead of verdict. Check these cases specifically:
+- The author criticizes the subject matter, the historical accuracy or the faithfulness to a book, or says the film is hard or unpleasant to watch, yet values the film itself. That is positive.
+- The author mocks the film but enjoyed watching it, or calls it fun despite listing flaws. Follow the enjoyment.
+- The author opens with concessions ("has potential", "solidly made", "not perfect", "original idea") and then concludes it is dull, wasted or not worth watching. Follow the conclusion, not the concessions.
+- A long list of complaints followed by a recommendation, or a long list of compliments followed by disappointment. Follow the final judgment.
+
+Then score the classifier's work from 1 to 10: do its quotes exist and represent the verdict rather than an isolated remark, did it handle sarcasm and mixed passages, and is its confidence reasonable for how ambiguous the review is. A wrong label scores 4 or lower.

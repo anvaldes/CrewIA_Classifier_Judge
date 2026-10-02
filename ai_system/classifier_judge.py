@@ -20,8 +20,10 @@ class Classification(BaseModel):
 
 
 class Verdict(BaseModel):
-    agrees: bool = Field(description="True if the judge confirms the classifier's label")
+    analysis: str = Field(description="What the author praises, what they criticize, and their final verdict")
+    estimated_rating: int = Field(ge=1, le=10, description="Star rating the author would give")
     final_label: Label
+    agrees: bool = Field(description="True if final_label matches the classifier's label")
     score: int = Field(ge=1, le=10, description="Quality of the classification according to the rubric")
     reason: str = Field(description="Why the judge confirms or corrects, 1-2 sentences")
 
@@ -44,11 +46,11 @@ classifier = Agent(
 )
 
 judge = Agent(
-    role="Classification judge",
-    goal="Audit the classifier's label and correct it only when there is clear evidence",
+    role="Independent second reader",
+    goal="Decide the correct label from the review and overrule the classifier whenever your own reading differs",
     backstory=(
-        "You are a skeptical but fair reviewer. You do not change a label over a minor doubt: "
-        "you only correct it when the text of the review clearly contradicts the classifier."
+        "You reach your own verdict from the review before looking at the classifier's. "
+        "You judge by the author's final opinion of the movie, not by the tone or the number of complaints."
     ),
     llm=JUDGE_MODEL,
     allow_delegation=False,
@@ -63,7 +65,10 @@ classification_task = Task(
 
 judge_task = Task(
     description=load_prompt("judge"),
-    expected_output="Agreement (yes/no), final label, score from 1 to 10 and a brief reason.",
+    expected_output=(
+        "Analysis of the review, estimated star rating, final label, agreement (yes/no), "
+        "score from 1 to 10 and a brief reason."
+    ),
     agent=judge,
     context=[classification_task],  # the judge receives the classifier's output
     output_pydantic=Verdict,
