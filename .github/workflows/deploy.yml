@@ -12,7 +12,7 @@ concurrency:
 # PARAMETROS DEL DEPLOY
 # --------------------------------------------------
 env:
-  PROJECT_ID: iaportafolio
+  PROJECT_ID: iaportafolio-510415
   REGION: us-central1
   SERVICE_NAME: crewia-classifier-judge
   AR_REPOSITORY: crewia-classifier-judge
