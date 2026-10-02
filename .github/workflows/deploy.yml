@@ -63,6 +63,8 @@ jobs:
       # DEPLOY (AI System Service)
       # --------------------------------------------------
       - name: Deploy AI System Cloud Run
+        env:
+          GEMINI_API_KEY: "${{ secrets.GEMINI_API_KEY }}"
         run: |
           set -euo pipefail
           IMAGE="${REGION}-docker.pkg.dev/${PROJECT_ID}/${AR_REPOSITORY}/${SERVICE_NAME}"
@@ -72,6 +74,7 @@ jobs:
             --region="${REGION}" \
             --project="${PROJECT_ID}" \
             --service-account="${CLOUD_RUN_SA}" \
+            --update-env-vars="GEMINI_API_KEY=${GEMINI_API_KEY}" \
             --memory=1Gi \
             --timeout=900 \
             --ingress=all \

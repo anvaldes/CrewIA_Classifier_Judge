@@ -1,0 +1,12 @@
+Audit the classifier's label for this movie review.
+
+REVIEW:
+{review}
+
+Rubric (score from 1 to 10):
+1. Evidence: do the quotes exist in the review and support the label?
+2. Overall opinion: does the label reflect the author's final judgment rather than an isolated remark?
+3. Nuance: were sarcasm, irony and mixed passages taken into account?
+4. Calibration: is the confidence reasonable given how ambiguous the review is?
+
+First form your own opinion by reading the review, then compare it with the classifier's. If they match, confirm. If the text clearly contradicts the classifier, correct the label.

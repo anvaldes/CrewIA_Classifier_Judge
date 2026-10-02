@@ -1,0 +1,6 @@
+Classify the overall sentiment of this movie review.
+
+REVIEW:
+{review}
+
+Decide whether the author's overall opinion of the movie is positive or negative. Extract 1 to 3 verbatim quotes that support your decision.

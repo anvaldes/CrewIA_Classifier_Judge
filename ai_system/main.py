@@ -1,13 +1,17 @@
-from flask import Flask, request
-from io import StringIO
+from flask import Flask, jsonify, request
+
+from classifier_judge import classify
 
 app = Flask(__name__)
 
 print("✔ Flask app is loading...")
 
-@app.route("/", methods=["GET"])
+@app.route("/", methods=["POST"])
 def pipeline():
-    pais = request.args.get("pais", "MX")
-    nombre_file = request.args.get("nombre_file", "1")
+    payload = request.get_json(silent=True)
+    review = payload.get("review") if isinstance(payload, dict) else None
 
-    return f"Pais: {pais}, Nombre archivo: {nombre_file}" , 200
+    if not isinstance(review, str) or not review.strip():
+        return jsonify({"error": 'Expected a JSON body like {"review": "The film was bad"}'}), 400
+
+    return jsonify(classify(review)), 200

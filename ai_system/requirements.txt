@@ -1,3 +1,4 @@
 flask==2.2.5
 gunicorn==20.1.0
 google-cloud-storage==2.16.0
+crewai[google-genai]==1.15.23
