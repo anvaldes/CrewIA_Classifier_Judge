@@ -4,8 +4,8 @@ from typing import Literal
 from crewai import Agent, Crew, Process, Task
 from pydantic import BaseModel, Field
 
-CLASSIFIER_MODEL = "gemini/gemini-flash-latest"
-JUDGE_MODEL = "gemini/gemini-pro-latest"
+CLASSIFIER_MODEL = "gemini/gemini-2.5-flash"
+JUDGE_MODEL = "gemini/gemini-2.5-flash"
 
 PROMPTS_DIR = Path(__file__).parent / "prompts"
 
