@@ -14,4 +14,11 @@ def pipeline():
     if not isinstance(review, str) or not review.strip():
         return jsonify({"error": 'Expected a JSON body like {"review": "The film was bad"}'}), 400
 
-    return jsonify(classify(review)), 200
+    try:
+        result = classify(review)
+    except Exception as e:
+        # e.g. Gemini returning an empty response (safety block) that fails structured-output validation
+        app.logger.exception("classify failed")
+        return jsonify({"error": f"{type(e).__name__}: {e}"}), 502
+
+    return jsonify(result), 200
